@@ -1,0 +1,638 @@
+openapi: 3.0.3
+info:
+  title: CSM AI API
+  description: |
+    C# SDK for [CSM AI](https://www.csm.ai/) (Common Sense Machines) — AI-powered 3D generation platform.
+    Covers the unified v3 Sessions API (image-to-3D, text-to-image, image-to-kit, multiview-to-3D, retopology)
+    as well as the legacy per-type session endpoints documented in the Python client.
+
+    Manually authored from the [CSM API docs](https://docs.csm.ai/) and the
+    [official Python SDK](https://github.com/CommonSenseMachines/csm-ai).
+
+    Authentication uses an API key passed in the `x-api-key` header. Create a key from the
+    [Cube Webapp](https://3d.csm.ai/) profile page.
+  version: '1.0.0'
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://api.csm.ai
+    description: CSM AI production API
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: sessions
+    description: Unified v3 sessions API (create and manage any session type).
+  - name: image-to-3d
+    description: Legacy image-to-3D session endpoints.
+  - name: text-to-image
+    description: Legacy text-to-image session endpoints.
+  - name: assets
+    description: User assets (completed sessions, downloads).
+paths:
+  /v3/sessions/:
+    post:
+      operationId: createSession
+      summary: Create a session (any type)
+      description: |
+        Creates an asynchronous session. The `type` field determines which generation to perform
+        and which fields are required in `input`. Supported types: `image_to_3d`, `multiview_to_3d`,
+        `text_to_image`, `image_to_kit`, `retopology`.
+      tags: [sessions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+      responses:
+        '200':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '201':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+    get:
+      operationId: listSessions
+      summary: List sessions
+      description: List sessions for the current user with optional pagination.
+      tags: [sessions]
+      parameters:
+        - in: query
+          name: limit
+          description: Number of records to return (default 10, max 100).
+          required: false
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 100
+        - in: query
+          name: page
+          description: Page number (zero-indexed) for pagination.
+          required: false
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - in: query
+          name: type
+          description: Filter by session type.
+          required: false
+          schema:
+            $ref: '#/components/schemas/SessionType'
+        - in: query
+          name: status
+          description: Filter by session status.
+          required: false
+          schema:
+            $ref: '#/components/schemas/SessionStatus'
+      responses:
+        '200':
+          description: List of sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSessionsResponse'
+  /v3/sessions/{sessionId}:
+    parameters:
+      - in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        description: The unique identifier of the session.
+    get:
+      operationId: getSession
+      summary: Get a session by id
+      description: Retrieves the full state of a session including status, progress, and outputs.
+      tags: [sessions]
+      responses:
+        '200':
+          description: Session data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+    delete:
+      operationId: cancelSession
+      summary: Cancel or delete a session
+      tags: [sessions]
+      responses:
+        '200':
+          description: Session cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleMessageResponse'
+  /image-to-3d-sessions:
+    post:
+      operationId: createImageTo3DSession
+      summary: (Legacy) Create an image-to-3D session
+      description: |
+        Legacy endpoint used by the official Python client. Prefer `POST /v3/sessions/` with
+        `type: image_to_3d` for new integrations.
+      tags: [image-to-3d]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LegacyImageTo3DRequest'
+      responses:
+        '201':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyImageTo3DSessionEnvelope'
+    get:
+      operationId: listImageTo3DSessions
+      summary: (Legacy) List image-to-3D sessions
+      tags: [image-to-3d]
+      parameters:
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyImageTo3DListEnvelope'
+  /image-to-3d-sessions/{sessionCode}:
+    parameters:
+      - in: path
+        name: sessionCode
+        required: true
+        schema:
+          type: string
+        description: The session code, formatted like `SESSION_XXXXXXXXXX_XXXXXXX`.
+    get:
+      operationId: getImageTo3DSession
+      summary: (Legacy) Get an image-to-3D session
+      tags: [image-to-3d]
+      responses:
+        '200':
+          description: Session data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyImageTo3DSessionEnvelope'
+  /image-to-3d-sessions/{sessionCode}/regenerate-spins:
+    parameters:
+      - in: path
+        name: sessionCode
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: regenerateSpins
+      summary: (Legacy) Regenerate preview spins for an image-to-3D session
+      tags: [image-to-3d]
+      responses:
+        '200':
+          description: Spin regeneration queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyImageTo3DSessionEnvelope'
+  /tti-sessions:
+    post:
+      operationId: createTextToImageSession
+      summary: (Legacy) Create a text-to-image session
+      description: |
+        Legacy endpoint used by the official Python client for text-to-3D generation
+        (pipeline is text → image → image-to-3D). Prefer `POST /v3/sessions/` with
+        `type: text_to_image` for new integrations.
+      tags: [text-to-image]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LegacyTextToImageRequest'
+      responses:
+        '201':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyTextToImageSessionEnvelope'
+  /tti-sessions/{sessionCode}:
+    parameters:
+      - in: path
+        name: sessionCode
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getTextToImageSession
+      summary: (Legacy) Get a text-to-image session
+      tags: [text-to-image]
+      responses:
+        '200':
+          description: Session data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyTextToImageSessionEnvelope'
+  /user/credits:
+    get:
+      operationId: getCreditsBalance
+      summary: Get current credit balance
+      tags: [assets]
+      responses:
+        '200':
+          description: Credit balance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditsBalanceResponse'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key created from the Cube Webapp profile page.
+  schemas:
+    SessionType:
+      type: string
+      description: |
+        Type of CSM session — determines the generation performed and the required input fields.
+        - `image_to_3d`: Generate a textured 3D mesh from a single image.
+        - `multiview_to_3d`: Generate a 3D mesh from multiple views.
+        - `text_to_image`: Generate an image from a text prompt (first stage of text-to-3D).
+        - `image_to_kit`: Decompose a single image into a kit of modular 3D parts.
+        - `retopology`: AI retopology of a high-poly mesh into clean low-poly topology.
+        - `scene`: Full 3D scene generation.
+      enum:
+        - image_to_3d
+        - multiview_to_3d
+        - text_to_image
+        - image_to_kit
+        - retopology
+        - scene
+    SessionStatus:
+      type: string
+      description: Status of a CSM session.
+      enum:
+        - incomplete
+        - queued
+        - processing
+        - in_progress
+        - complete
+        - completed
+        - failed
+        - cancelled
+    GeometryModel:
+      type: string
+      description: Geometry model variant for image-to-3D.
+      enum: [base, turbo]
+    TextureModel:
+      type: string
+      description: Texture model variant for image-to-3D.
+      enum: [none, baked, pbr]
+    Creativity:
+      type: string
+      description: Creativity level for image-to-3D.
+      enum: [highest, moderate, lowest]
+    RefineSpeed:
+      type: string
+      description: Refinement speed for image-to-3D.
+      enum: [fast, slow]
+    CreateSessionRequest:
+      type: object
+      required: [type, input]
+      properties:
+        type:
+          $ref: '#/components/schemas/SessionType'
+        input:
+          $ref: '#/components/schemas/SessionInput'
+    SessionInput:
+      type: object
+      description: |
+        Union of input fields across all session types. Which fields are required depends on `type`.
+        - For `image_to_3d` / `image_to_kit`: `image_url` is required.
+        - For `multiview_to_3d`: `image_urls` is required.
+        - For `text_to_image`: `prompt` is required.
+        - For `retopology`: `mesh_url` is required.
+        - For `scene`: `prompt` is required; `image_url` and `style_id` are optional.
+      properties:
+        image_url:
+          type: string
+          description: Public URL or base64 data URI of the input image.
+        image_urls:
+          type: array
+          description: Multiple input image URLs (for `multiview_to_3d`).
+          items:
+            type: string
+        prompt:
+          type: string
+          description: Text prompt (for `text_to_image`, `scene`).
+        mesh_url:
+          type: string
+          description: URL of an input 3D mesh (for `retopology`).
+        style_id:
+          type: string
+          description: Optional style identifier influencing visual characteristics.
+        guidance:
+          type: number
+          description: Guidance strength (higher = stricter adherence to prompt).
+          default: 6
+        settings:
+          $ref: '#/components/schemas/SessionInputSettings'
+      additionalProperties: true
+    SessionInputSettings:
+      type: object
+      description: Optional generation settings (parameters vary by session type).
+      properties:
+        creativity:
+          $ref: '#/components/schemas/Creativity'
+        auto_refine:
+          type: boolean
+          default: false
+        refine_speed:
+          $ref: '#/components/schemas/RefineSpeed'
+        geometry_model:
+          $ref: '#/components/schemas/GeometryModel'
+        texture_model:
+          $ref: '#/components/schemas/TextureModel'
+        scaled_bbox:
+          type: array
+          description: Target dimensions in meters `[x, y, z]`.
+          items:
+            type: number
+          minItems: 3
+          maxItems: 3
+        resolution:
+          type: integer
+          description: Output texture resolution (e.g. 1024, 2048).
+        seed:
+          type: integer
+          description: Seed for deterministic generation.
+      additionalProperties: true
+    SessionOutput:
+      type: object
+      description: |
+        Union of output fields across all session types. Which fields are populated depends on `type`
+        and session status.
+      properties:
+        image_url:
+          type: string
+          description: URL of the generated image (for `text_to_image`).
+        mesh_url:
+          type: string
+          description: Generic mesh URL.
+        mesh_url_obj:
+          type: string
+        mesh_url_glb:
+          type: string
+        mesh_url_fbx:
+          type: string
+        mesh_url_usdz:
+          type: string
+        mesh_url_zip:
+          type: string
+        preview_mesh_url_glb:
+          type: string
+        spin_video_url:
+          type: string
+        parts:
+          type: array
+          description: Kit parts (for `image_to_kit`).
+          items:
+            $ref: '#/components/schemas/KitPart'
+        scene_url:
+          type: string
+          description: URL of the generated 3D scene (for `scene`).
+      additionalProperties: true
+    KitPart:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        mesh_url_glb:
+          type: string
+        mesh_url_obj:
+          type: string
+        mesh_url_fbx:
+          type: string
+      additionalProperties: true
+    SessionResponse:
+      type: object
+      description: A session object with status, inputs, and outputs.
+      properties:
+        _id:
+          type: string
+          description: Unique identifier of the session.
+        session_code:
+          type: string
+          description: Legacy session code (e.g. `SESSION_XXXXXXXXXX_XXXXXXX`).
+        user_id:
+          type: string
+        type:
+          $ref: '#/components/schemas/SessionType'
+        status:
+          $ref: '#/components/schemas/SessionStatus'
+        session_status:
+          $ref: '#/components/schemas/SessionStatus'
+        percent_done:
+          type: number
+          description: Progress percentage (0-100).
+        created_at:
+          type: string
+          description: ISO-8601 timestamp or millisecond epoch.
+        updated_at:
+          type: string
+        input:
+          $ref: '#/components/schemas/SessionInput'
+        output:
+          $ref: '#/components/schemas/SessionOutput'
+      additionalProperties: true
+    ListSessionsResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SessionResponse'
+        total:
+          type: integer
+          description: Total number of sessions matching the filter.
+        page:
+          type: integer
+        limit:
+          type: integer
+      additionalProperties: true
+    LegacyImageTo3DRequest:
+      type: object
+      required: [image_url]
+      properties:
+        image_url:
+          type: string
+          description: Public URL or base64 data URI of the image.
+        geometry_model:
+          $ref: '#/components/schemas/GeometryModel'
+        texture_model:
+          $ref: '#/components/schemas/TextureModel'
+        creativity:
+          $ref: '#/components/schemas/Creativity'
+        auto_refine:
+          type: boolean
+        refine_speed:
+          $ref: '#/components/schemas/RefineSpeed'
+        scaled_bbox:
+          type: array
+          items:
+            type: number
+          minItems: 3
+          maxItems: 3
+      additionalProperties: true
+    LegacyImageTo3DSession:
+      type: object
+      properties:
+        _id:
+          type: string
+        session_code:
+          type: string
+        session_status:
+          $ref: '#/components/schemas/SessionStatus'
+        percent_done:
+          type: number
+        image_url:
+          type: string
+        mesh_url_obj:
+          type: string
+        mesh_url_glb:
+          type: string
+        mesh_url_fbx:
+          type: string
+        mesh_url_usdz:
+          type: string
+        mesh_url_zip:
+          type: string
+        spin_video_url:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      additionalProperties: true
+    LegacyImageTo3DSessionEnvelope:
+      type: object
+      description: Standard envelope shape returned by legacy endpoints.
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        error:
+          type: string
+        data:
+          $ref: '#/components/schemas/LegacyImageTo3DSession'
+      additionalProperties: true
+    LegacyImageTo3DListEnvelope:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/LegacyImageTo3DSession'
+            total:
+              type: integer
+          additionalProperties: true
+      additionalProperties: true
+    LegacyTextToImageRequest:
+      type: object
+      required: [prompt]
+      properties:
+        prompt:
+          type: string
+          description: Text prompt.
+        style_id:
+          type: string
+          default: ''
+        guidance:
+          type: string
+          description: Guidance strength, serialized as a string in the legacy API.
+          default: '6'
+      additionalProperties: true
+    LegacyTextToImageSession:
+      type: object
+      properties:
+        _id:
+          type: string
+        session_code:
+          type: string
+        status:
+          $ref: '#/components/schemas/SessionStatus'
+        prompt:
+          type: string
+        image_url:
+          type: string
+        style_id:
+          type: string
+        guidance:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      additionalProperties: true
+    LegacyTextToImageSessionEnvelope:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        error:
+          type: string
+        data:
+          $ref: '#/components/schemas/LegacyTextToImageSession'
+      additionalProperties: true
+    SimpleMessageResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+      additionalProperties: true
+    CreditsBalanceResponse:
+      type: object
+      properties:
+        credits:
+          type: number
+          description: Current credit balance.
+        plan:
+          type: string
+          description: Subscription plan name.
+      additionalProperties: true
