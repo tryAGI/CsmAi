@@ -124,7 +124,7 @@ namespace CsmAi
                 PrepareGetImageTo3DSessionRequest(
                     httpClient: HttpClient,
                     httpRequestMessage: __httpRequest,
-                    sessionCode: sessionCode);
+                    sessionCode: sessionCode!);
 
                 return __httpRequest;
             }
