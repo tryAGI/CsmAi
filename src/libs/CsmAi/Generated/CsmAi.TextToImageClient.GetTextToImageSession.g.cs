@@ -124,7 +124,7 @@ namespace CsmAi
                 PrepareGetTextToImageSessionRequest(
                     httpClient: HttpClient,
                     httpRequestMessage: __httpRequest,
-                    sessionCode: sessionCode);
+                    sessionCode: sessionCode!);
 
                 return __httpRequest;
             }

@@ -124,7 +124,7 @@ namespace CsmAi
                 PrepareRegenerateSpinsRequest(
                     httpClient: HttpClient,
                     httpRequestMessage: __httpRequest,
-                    sessionCode: sessionCode);
+                    sessionCode: sessionCode!);
 
                 return __httpRequest;
             }
