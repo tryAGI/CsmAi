@@ -49,7 +49,7 @@ namespace CsmAi
         /// <summary>
         /// User assets (completed sessions, downloads).
         /// </summary>
-        public AssetsClient Assets => new AssetsClient(HttpClient, authorizations: Authorizations, options: Options)
+        public AssetsClient Assets => new AssetsClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
             ReadResponseAsString = ReadResponseAsString,
             JsonSerializerContext = JsonSerializerContext,
@@ -58,7 +58,7 @@ namespace CsmAi
         /// <summary>
         /// Legacy image-to-3D session endpoints.
         /// </summary>
-        public ImageTo3dClient ImageTo3d => new ImageTo3dClient(HttpClient, authorizations: Authorizations, options: Options)
+        public ImageTo3dClient ImageTo3d => new ImageTo3dClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
             ReadResponseAsString = ReadResponseAsString,
             JsonSerializerContext = JsonSerializerContext,
@@ -67,7 +67,7 @@ namespace CsmAi
         /// <summary>
         /// Unified v3 sessions API (create and manage any session type).
         /// </summary>
-        public SessionsClient Sessions => new SessionsClient(HttpClient, authorizations: Authorizations, options: Options)
+        public SessionsClient Sessions => new SessionsClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
             ReadResponseAsString = ReadResponseAsString,
             JsonSerializerContext = JsonSerializerContext,
@@ -76,7 +76,7 @@ namespace CsmAi
         /// <summary>
         /// Legacy text-to-image session endpoints.
         /// </summary>
-        public TextToImageClient TextToImage => new TextToImageClient(HttpClient, authorizations: Authorizations, options: Options)
+        public TextToImageClient TextToImage => new TextToImageClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
             ReadResponseAsString = ReadResponseAsString,
             JsonSerializerContext = JsonSerializerContext,
@@ -115,10 +115,10 @@ namespace CsmAi
         /// <param name="options">Client-wide request defaults such as headers, query parameters, retries, and timeout.</param>
         /// <param name="disposeHttpClient">Dispose the HttpClient when the instance is disposed. True by default.</param>
         public CsmAiClient(
-            global::System.Net.Http.HttpClient? httpClient = null,
-            global::System.Uri? baseUri = null,
-            global::System.Collections.Generic.List<global::CsmAi.EndPointAuthorization>? authorizations = null,
-            global::CsmAi.AutoSDKClientOptions? options = null,
+            global::System.Net.Http.HttpClient? httpClient,
+            global::System.Uri? baseUri,
+            global::System.Collections.Generic.List<global::CsmAi.EndPointAuthorization>? authorizations,
+            global::CsmAi.AutoSDKClientOptions? options,
             bool disposeHttpClient = true)
         {
 
