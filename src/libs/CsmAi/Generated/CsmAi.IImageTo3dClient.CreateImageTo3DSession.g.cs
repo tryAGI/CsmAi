@@ -23,6 +23,20 @@ namespace CsmAi
         /// Legacy endpoint used by the official Python client. Prefer `POST /v3/sessions/` with<br/>
         /// `type: image_to_3d` for new integrations.
         /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::CsmAi.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::CsmAi.AutoSDKHttpResponse<global::CsmAi.LegacyImageTo3DSessionEnvelope>> CreateImageTo3DSessionAsResponseAsync(
+
+            global::CsmAi.LegacyImageTo3DRequest request,
+            global::CsmAi.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// (Legacy) Create an image-to-3D session<br/>
+        /// Legacy endpoint used by the official Python client. Prefer `POST /v3/sessions/` with<br/>
+        /// `type: image_to_3d` for new integrations.
+        /// </summary>
         /// <param name="imageUrl">
         /// Public URL or base64 data URI of the image.
         /// </param>

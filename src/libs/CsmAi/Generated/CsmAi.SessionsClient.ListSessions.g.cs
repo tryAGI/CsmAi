@@ -80,6 +80,50 @@ namespace CsmAi
             global::CsmAi.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
+            var __response = await ListSessionsAsResponseAsync(
+                limit: limit,
+                page: page,
+                type: type,
+                status: status,
+                requestOptions: requestOptions,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
+
+            return __response.Body;
+        }
+        /// <summary>
+        /// List sessions<br/>
+        /// List sessions for the current user with optional pagination.
+        /// </summary>
+        /// <param name="limit">
+        /// Default Value: 10
+        /// </param>
+        /// <param name="page">
+        /// Default Value: 0
+        /// </param>
+        /// <param name="type">
+        /// Type of CSM session — determines the generation performed and the required input fields.<br/>
+        /// - `image_to_3d`: Generate a textured 3D mesh from a single image.<br/>
+        /// - `multiview_to_3d`: Generate a 3D mesh from multiple views.<br/>
+        /// - `text_to_image`: Generate an image from a text prompt (first stage of text-to-3D).<br/>
+        /// - `image_to_kit`: Decompose a single image into a kit of modular 3D parts.<br/>
+        /// - `retopology`: AI retopology of a high-poly mesh into clean low-poly topology.<br/>
+        /// - `scene`: Full 3D scene generation.
+        /// </param>
+        /// <param name="status">
+        /// Status of a CSM session.
+        /// </param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::CsmAi.ApiException"></exception>
+        public async global::System.Threading.Tasks.Task<global::CsmAi.AutoSDKHttpResponse<global::CsmAi.ListSessionsResponse>> ListSessionsAsResponseAsync(
+            int? limit = default,
+            int? page = default,
+            global::CsmAi.SessionType? type = default,
+            global::CsmAi.SessionStatus? status = default,
+            global::CsmAi.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default)
+        {
             PrepareArguments(
                 client: HttpClient);
             PrepareListSessionsArguments(
@@ -111,14 +155,15 @@ namespace CsmAi
 
             global::System.Net.Http.HttpRequestMessage __CreateHttpRequest()
             {
+
                             var __pathBuilder = new global::CsmAi.PathBuilder(
                                 path: "/v3/sessions/",
-                                baseUri: HttpClient.BaseAddress); 
+                                baseUri: HttpClient.BaseAddress);
                             __pathBuilder
                                 .AddOptionalParameter("limit", limit?.ToString())
                                 .AddOptionalParameter("page", page?.ToString())
                                 .AddOptionalParameter("type", type?.ToValueString())
-                                .AddOptionalParameter("status", status?.ToValueString()) 
+                                .AddOptionalParameter("status", status?.ToValueString())
                                 ;
                             var __path = __pathBuilder.ToString();
                 __path = global::CsmAi.AutoSDKRequestOptionsSupport.AppendQueryParameters(
@@ -193,6 +238,8 @@ namespace CsmAi
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                     try
                     {
@@ -203,6 +250,11 @@ namespace CsmAi
                     }
                     catch (global::System.Net.Http.HttpRequestException __exception)
                     {
+                        var __retryDelay = global::CsmAi.AutoSDKRequestOptionsSupport.GetRetryDelay(
+                            clientOptions: Options,
+                            requestOptions: requestOptions,
+                            response: null,
+                            attempt: __attempt);
                         var __willRetry = __attempt < __maxAttempts && !__effectiveCancellationToken.IsCancellationRequested;
                         await global::CsmAi.AutoSDKRequestOptionsSupport.OnAfterErrorAsync(
                             clientOptions: Options,
@@ -220,6 +272,8 @@ namespace CsmAi
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: __willRetry,
+                                retryDelay: __willRetry ? __retryDelay : (global::System.TimeSpan?)null,
+                                retryReason: "exception",
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                         if (!__willRetry)
                         {
@@ -229,8 +283,7 @@ namespace CsmAi
                         __httpRequest.Dispose();
                         __httpRequest = null;
                         await global::CsmAi.AutoSDKRequestOptionsSupport.DelayBeforeRetryAsync(
-                            clientOptions: Options,
-                            requestOptions: requestOptions,
+                            retryDelay: __retryDelay,
                             cancellationToken: __effectiveCancellationToken).ConfigureAwait(false);
                         continue;
                     }
@@ -239,6 +292,11 @@ namespace CsmAi
                         __attempt < __maxAttempts &&
                         global::CsmAi.AutoSDKRequestOptionsSupport.ShouldRetryStatusCode(__response.StatusCode))
                     {
+                        var __retryDelay = global::CsmAi.AutoSDKRequestOptionsSupport.GetRetryDelay(
+                            clientOptions: Options,
+                            requestOptions: requestOptions,
+                            response: __response,
+                            attempt: __attempt);
                         await global::CsmAi.AutoSDKRequestOptionsSupport.OnAfterErrorAsync(
                             clientOptions: Options,
                             context: global::CsmAi.AutoSDKRequestOptionsSupport.CreateHookContext(
@@ -255,14 +313,15 @@ namespace CsmAi
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: true,
+                                retryDelay: __retryDelay,
+                                retryReason: "status:" + ((int)__response.StatusCode).ToString(global::System.Globalization.CultureInfo.InvariantCulture),
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                         __response.Dispose();
                         __response = null;
                         __httpRequest.Dispose();
                         __httpRequest = null;
                         await global::CsmAi.AutoSDKRequestOptionsSupport.DelayBeforeRetryAsync(
-                            clientOptions: Options,
-                            requestOptions: requestOptions,
+                            retryDelay: __retryDelay,
                             cancellationToken: __effectiveCancellationToken).ConfigureAwait(false);
                         continue;
                     }
@@ -302,6 +361,8 @@ namespace CsmAi
                                 attempt: __attemptNumber,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                 }
                 else
@@ -322,6 +383,8 @@ namespace CsmAi
                                 attempt: __attemptNumber,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                 }
 
@@ -346,9 +409,13 @@ namespace CsmAi
                                 {
                                     __response.EnsureSuccessStatusCode();
 
-                                    return
-                                        global::CsmAi.ListSessionsResponse.FromJson(__content, JsonSerializerContext) ??
+                                    var __value = global::CsmAi.ListSessionsResponse.FromJson(__content, JsonSerializerContext) ??
                                         throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
+                                    return new global::CsmAi.AutoSDKHttpResponse<global::CsmAi.ListSessionsResponse>(
+                                        statusCode: __response.StatusCode,
+                                        headers: global::CsmAi.AutoSDKHttpResponse.CreateHeaders(__response),
+                                        requestUri: __response.RequestMessage?.RequestUri,
+                                        body: __value);
                                 }
                                 catch (global::System.Exception __ex)
                                 {
@@ -376,9 +443,13 @@ namespace CsmAi
                 #endif
                                     ).ConfigureAwait(false);
 
-                                    return
-                                        await global::CsmAi.ListSessionsResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
+                                    var __value = await global::CsmAi.ListSessionsResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
                                         throw new global::System.InvalidOperationException("Response deserialization failed.");
+                                    return new global::CsmAi.AutoSDKHttpResponse<global::CsmAi.ListSessionsResponse>(
+                                        statusCode: __response.StatusCode,
+                                        headers: global::CsmAi.AutoSDKHttpResponse.CreateHeaders(__response),
+                                        requestUri: __response.RequestMessage?.RequestUri,
+                                        body: __value);
                                 }
                                 catch (global::System.Exception __ex)
                                 {
