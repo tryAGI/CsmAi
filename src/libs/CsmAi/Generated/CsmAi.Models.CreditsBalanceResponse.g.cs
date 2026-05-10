@@ -52,5 +52,6 @@ namespace CsmAi
         public CreditsBalanceResponse()
         {
         }
+
     }
 }

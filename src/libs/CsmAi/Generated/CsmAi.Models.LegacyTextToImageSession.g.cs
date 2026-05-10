@@ -114,5 +114,6 @@ namespace CsmAi
         public LegacyTextToImageSession()
         {
         }
+
     }
 }
