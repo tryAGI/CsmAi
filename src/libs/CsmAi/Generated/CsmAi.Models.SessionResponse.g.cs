@@ -174,5 +174,6 @@ namespace CsmAi
         public SessionResponse()
         {
         }
+
     }
 }

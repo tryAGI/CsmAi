@@ -108,5 +108,6 @@ namespace CsmAi
         public LegacyImageTo3DRequest()
         {
         }
+
     }
 }

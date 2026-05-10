@@ -64,5 +64,6 @@ namespace CsmAi
         public LegacyTextToImageRequest()
         {
         }
+
     }
 }

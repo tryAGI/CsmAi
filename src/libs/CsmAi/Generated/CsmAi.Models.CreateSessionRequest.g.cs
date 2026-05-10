@@ -77,5 +77,6 @@ namespace CsmAi
         public CreateSessionRequest()
         {
         }
+
     }
 }

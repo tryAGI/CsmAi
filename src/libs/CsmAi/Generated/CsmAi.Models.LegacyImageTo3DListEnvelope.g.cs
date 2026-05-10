@@ -57,5 +57,6 @@ namespace CsmAi
         public LegacyImageTo3DListEnvelope()
         {
         }
+
     }
 }

@@ -66,5 +66,6 @@ namespace CsmAi
         public LegacyImageTo3DSessionEnvelope()
         {
         }
+
     }
 }

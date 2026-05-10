@@ -122,5 +122,6 @@ namespace CsmAi
         public SessionInputSettings()
         {
         }
+
     }
 }
