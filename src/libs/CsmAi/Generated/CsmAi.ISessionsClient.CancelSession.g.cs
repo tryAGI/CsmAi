@@ -15,5 +15,16 @@ namespace CsmAi
             string sessionId,
             global::CsmAi.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Cancel or delete a session
+        /// </summary>
+        /// <param name="sessionId"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::CsmAi.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::CsmAi.AutoSDKHttpResponse<global::CsmAi.SimpleMessageResponse>> CancelSessionAsResponseAsync(
+            string sessionId,
+            global::CsmAi.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
     }
 }

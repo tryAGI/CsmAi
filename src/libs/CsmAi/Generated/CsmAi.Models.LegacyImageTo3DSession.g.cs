@@ -150,5 +150,6 @@ namespace CsmAi
         public LegacyImageTo3DSession()
         {
         }
+
     }
 }

@@ -138,5 +138,6 @@ namespace CsmAi
         public SessionOutput()
         {
         }
+
     }
 }

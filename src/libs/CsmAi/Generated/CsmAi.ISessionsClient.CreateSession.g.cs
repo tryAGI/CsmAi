@@ -25,6 +25,21 @@ namespace CsmAi
         /// and which fields are required in `input`. Supported types: `image_to_3d`, `multiview_to_3d`,<br/>
         /// `text_to_image`, `image_to_kit`, `retopology`.
         /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::CsmAi.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::CsmAi.AutoSDKHttpResponse<global::CsmAi.SessionResponse>> CreateSessionAsResponseAsync(
+
+            global::CsmAi.CreateSessionRequest request,
+            global::CsmAi.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Create a session (any type)<br/>
+        /// Creates an asynchronous session. The `type` field determines which generation to perform<br/>
+        /// and which fields are required in `input`. Supported types: `image_to_3d`, `multiview_to_3d`,<br/>
+        /// `text_to_image`, `image_to_kit`, `retopology`.
+        /// </summary>
         /// <param name="type">
         /// Type of CSM session — determines the generation performed and the required input fields.<br/>
         /// - `image_to_3d`: Generate a textured 3D mesh from a single image.<br/>
