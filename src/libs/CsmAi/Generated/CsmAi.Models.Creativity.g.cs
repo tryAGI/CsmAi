@@ -9,15 +9,15 @@ namespace CsmAi
     public enum Creativity
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Highest,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Lowest,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Moderate,
     }

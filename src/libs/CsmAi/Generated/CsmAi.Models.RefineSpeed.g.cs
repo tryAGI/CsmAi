@@ -9,11 +9,11 @@ namespace CsmAi
     public enum RefineSpeed
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Fast,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Slow,
     }
