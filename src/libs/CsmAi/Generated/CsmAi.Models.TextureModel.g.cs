@@ -9,15 +9,15 @@ namespace CsmAi
     public enum TextureModel
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Baked,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         None,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Pbr,
     }

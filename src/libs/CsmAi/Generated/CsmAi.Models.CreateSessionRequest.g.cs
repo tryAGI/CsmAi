@@ -4,7 +4,7 @@
 namespace CsmAi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class CreateSessionRequest
     {

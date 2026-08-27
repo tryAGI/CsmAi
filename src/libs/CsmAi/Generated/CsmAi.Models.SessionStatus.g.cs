@@ -9,35 +9,35 @@ namespace CsmAi
     public enum SessionStatus
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Cancelled,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Complete,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Completed,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Failed,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         InProgress,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Incomplete,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Processing,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Queued,
     }

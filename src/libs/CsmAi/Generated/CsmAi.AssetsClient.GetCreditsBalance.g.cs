@@ -124,7 +124,7 @@ namespace CsmAi
                          __authorization.Location == "Header")
                 {
                     __httpRequest.Headers.Add(__authorization.Name, __authorization.Value);
-                } 
+                }
             }
                 global::CsmAi.AutoSDKRequestOptionsSupport.ApplyHeaders(
                     request: __httpRequest,

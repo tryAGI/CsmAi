@@ -4,24 +4,24 @@
 namespace CsmAi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class LegacyImageTo3DListEnvelope
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("statusCode")]
         public int? StatusCode { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("message")]
         public string? Message { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("data")]
         public global::CsmAi.LegacyImageTo3DListEnvelopeData? Data { get; set; }

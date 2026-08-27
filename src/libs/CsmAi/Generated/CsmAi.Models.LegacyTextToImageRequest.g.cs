@@ -4,7 +4,7 @@
 namespace CsmAi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class LegacyTextToImageRequest
     {
@@ -16,7 +16,7 @@ namespace CsmAi
         public required string Prompt { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("style_id")]
         public string? StyleId { get; set; }

@@ -9,11 +9,11 @@ namespace CsmAi
     public enum GeometryModel
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Base,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Turbo,
     }

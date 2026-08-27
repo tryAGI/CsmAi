@@ -20,7 +20,7 @@ namespace CsmAi.JsonConverters
                     {
                         return global::CsmAi.RefineSpeedExtensions.ToEnum(stringValue);
                     }
-                    
+
                     break;
                 }
                 case global::System.Text.Json.JsonTokenType.Number:

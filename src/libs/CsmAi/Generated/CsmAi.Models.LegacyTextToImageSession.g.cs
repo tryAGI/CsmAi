@@ -4,18 +4,18 @@
 namespace CsmAi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class LegacyTextToImageSession
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("_id")]
         public string? Id { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("session_code")]
         public string? SessionCode { get; set; }
@@ -28,37 +28,37 @@ namespace CsmAi
         public global::CsmAi.SessionStatus? Status { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("prompt")]
         public string? Prompt { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("image_url")]
         public string? ImageUrl { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("style_id")]
         public string? StyleId { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("guidance")]
         public string? Guidance { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("created_at")]
         public string? CreatedAt { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("updated_at")]
         public string? UpdatedAt { get; set; }

@@ -4,12 +4,12 @@
 namespace CsmAi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class ListSessionsResponse
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("results")]
         public global::System.Collections.Generic.IList<global::CsmAi.SessionResponse>? Results { get; set; }
@@ -21,13 +21,13 @@ namespace CsmAi
         public int? Total { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("page")]
         public int? Page { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("limit")]
         public int? Limit { get; set; }

@@ -4,18 +4,18 @@
 namespace CsmAi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class LegacyImageTo3DListEnvelopeData
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("results")]
         public global::System.Collections.Generic.IList<global::CsmAi.LegacyImageTo3DSession>? Results { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("total")]
         public int? Total { get; set; }

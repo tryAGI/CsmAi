@@ -22,43 +22,43 @@ namespace CsmAi
         public string? MeshUrl { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("mesh_url_obj")]
         public string? MeshUrlObj { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("mesh_url_glb")]
         public string? MeshUrlGlb { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("mesh_url_fbx")]
         public string? MeshUrlFbx { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("mesh_url_usdz")]
         public string? MeshUrlUsdz { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("mesh_url_zip")]
         public string? MeshUrlZip { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("preview_mesh_url_glb")]
         public string? PreviewMeshUrlGlb { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("spin_video_url")]
         public string? SpinVideoUrl { get; set; }

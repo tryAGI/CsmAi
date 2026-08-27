@@ -4,7 +4,7 @@
 namespace CsmAi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class LegacyImageTo3DRequest
     {
@@ -37,7 +37,7 @@ namespace CsmAi
         public global::CsmAi.Creativity? Creativity { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("auto_refine")]
         public bool? AutoRefine { get; set; }
@@ -50,7 +50,7 @@ namespace CsmAi
         public global::CsmAi.RefineSpeed? RefineSpeed { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("scaled_bbox")]
         public global::System.Collections.Generic.IList<double>? ScaledBbox { get; set; }
