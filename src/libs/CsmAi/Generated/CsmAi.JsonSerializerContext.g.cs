@@ -40,6 +40,7 @@ namespace CsmAi
     #pragma warning restore CS3016
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::CsmAi.JsonSerializerContextTypes))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<object>), TypeInfoPropertyName = "SystemCollectionsGeneric_ObjectList")]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(string[]))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::CsmAi.SessionType), TypeInfoPropertyName = "SessionType2")]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::CsmAi.SessionStatus), TypeInfoPropertyName = "SessionStatus2")]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::CsmAi.GeometryModel), TypeInfoPropertyName = "GeometryModel2")]
